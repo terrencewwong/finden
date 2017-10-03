@@ -9,7 +9,6 @@ commander.parse(process.argv)
 
 const pattern = commander.args[0]
 
-search(pattern)
-  .catch(e => {
-    console.error(e)
-  })
+search(pattern).catch(e => {
+  console.error(e)
+})

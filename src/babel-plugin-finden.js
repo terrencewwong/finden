@@ -1,9 +1,10 @@
 const jsx = require('babel-plugin-syntax-jsx')
 
 const importMatchesPackage = pkg => x => x.source.includes(pkg)
-const extractLocalsFromImport = x => x.specifiers.map(specifier => specifier.local)
+const extractLocalsFromImport = x =>
+  x.specifiers.map(specifier => specifier.local)
 
-module.exports = function ({ types: t}) {
+module.exports = function ({ types: t }) {
   return {
     inherits: jsx,
     pre (state) {
@@ -16,7 +17,7 @@ module.exports = function ({ types: t}) {
         .reduce((a, b) => a.concat(b), [])
     },
     visitor: {
-      JSXOpeningElement(path, state) {
+      JSXOpeningElement (path, state) {
         const { filename } = state.file.opts
         const { tagName, line } = getJSXInfo(path)
         if (this.targetImports.includes(tagName)) {
@@ -27,39 +28,37 @@ module.exports = function ({ types: t}) {
     },
     post (state) {
       const { report } = this
-      state.opts.report = Object.keys(report).length
-        ? report
-        : null
+      state.opts.report = Object.keys(report).length ? report : null
     }
   }
 
   function getJSXInfo (path) {
     const line = path.container.openingElement.loc.start.line
-    const tagExpr = convertJSXIdentifier(path.node.name, path.node);
-    let tagName;
+    const tagExpr = convertJSXIdentifier(path.node.name, path.node)
+    let tagName
     if (t.isIdentifier(tagExpr)) {
-      tagName = tagExpr.name;
+      tagName = tagExpr.name
     } else if (t.isLiteral(tagExpr)) {
-      tagName = tagExpr.value;
+      tagName = tagExpr.value
     }
 
     return { tagName, line }
   }
 
-  function convertJSXIdentifier(node, parent) {
+  function convertJSXIdentifier (node, parent) {
     if (t.isJSXIdentifier(node)) {
-      if (node.name === "this" && t.isReferenced(node, parent)) {
-        return t.thisExpression();
+      if (node.name === 'this' && t.isReferenced(node, parent)) {
+        return t.thisExpression()
       } else {
-        return t.stringLiteral(node.name);
+        return t.stringLiteral(node.name)
       }
     } else if (t.isJSXMemberExpression(node)) {
       return t.memberExpression(
         convertJSXIdentifier(node.object, node),
         convertJSXIdentifier(node.property, node)
-      );
+      )
     }
 
-    return node;
+    return node
   }
 }

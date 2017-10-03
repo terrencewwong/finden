@@ -10,19 +10,17 @@ const DEFAULT_OPTIONS = {
   ast: false,
   babelrc: false,
   code: false,
-  plugins: [
-  ]
+  plugins: []
 }
-const promisify = f =>
-  (...args) => {
-    return new Promise((resolve, reject) => {
-      const cb = (err, result) => {
-        if (err) reject(err)
-        resolve(result)
-      }
-      f(...args, cb)
-    })
-  }
+const promisify = f => (...args) => {
+  return new Promise((resolve, reject) => {
+    const cb = (err, result) => {
+      if (err) reject(err)
+      resolve(result)
+    }
+    f(...args, cb)
+  })
+}
 const transform = promisify(transformFile)
 
 module.exports = async function search (pattern) {
@@ -31,7 +29,7 @@ module.exports = async function search (pattern) {
     const options = Object.assign({}, DEFAULT_OPTIONS, {
       filename: path,
       plugins: [
-        [ plugin, { pattern } ],
+        [plugin, { pattern }],
         syntaxObjectRestSpread,
         syntaxClassProperties,
         syntaxFlow
@@ -43,11 +41,9 @@ module.exports = async function search (pattern) {
   const reports = files
     .map(({ options }) => options.report)
     .filter(report => report)
-    .reduce((consolidated, report ) => {
-      return mergeWith(
-        {},
-        consolidated,
-        report, (a, b) => Object.assign({}, a, b)
+    .reduce((consolidated, report) => {
+      return mergeWith({}, consolidated, report, (a, b) =>
+        Object.assign({}, a, b)
       )
     }, {})
   console.log(JSON.stringify(reports, null, 2))
