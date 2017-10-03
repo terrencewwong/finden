@@ -63,6 +63,19 @@ type FileMap = {
 type LineNumber = number
 ```
 
+### CLI
+```bash
+finden <pattern> [glob]
+```
+
+- `pattern` - The search term. A JSX tag will be a match if it comes from an `import` statement that _contains_ `pattern`
+- `glob` - An optional glob pattern to specify which files should be searched. Default value is `**/*.js`
+
+__Example__
+```bash
+finden ui-library "**/*.jsx"
+```
+
 ## Installation
 
 ```bash

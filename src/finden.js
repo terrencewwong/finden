@@ -4,11 +4,16 @@ const commander = require('commander')
 const pkg = require('../package.json')
 const search = require('./search')
 
-commander.version(pkg.version)
-commander.parse(process.argv)
+commander
+  .version(pkg.version)
+  .arguments('<pattern> [glob]')
+  .parse(process.argv)
 
-const pattern = commander.args[0]
+const [pattern, glob = '**/*.js'] = commander.args
 
-search(pattern).catch(e => {
+search({
+  pattern,
+  glob
+}).catch(e => {
   console.error(e)
 })

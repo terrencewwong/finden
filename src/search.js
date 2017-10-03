@@ -23,8 +23,8 @@ const promisify = f => (...args) => {
 }
 const transform = promisify(transformFile)
 
-module.exports = async function search (pattern) {
-  const paths = await globby(['**/*.js', '!node_modules/**'])
+module.exports = async function search ({ pattern, glob }) {
+  const paths = await globby([glob, '!node_modules/**'])
   const filePromises = paths.map(path => {
     const options = Object.assign({}, DEFAULT_OPTIONS, {
       filename: path,
