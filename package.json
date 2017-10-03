@@ -1,15 +1,16 @@
 {
   "name": "finden",
-  "version": "1.0.0",
   "author": "Terrence Wong <wongterrencew@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "husky": "^0.14.3",
+    "in-publish": "^2.0.0",
     "lint-staged": "^4.2.3",
     "prettier-standard": "^7.0.1",
     "rimraf": "^2.6.2",
+    "semantic-release": "^8.0.3",
     "validate-commit-msg": "^2.14.0"
   },
   "dependencies": {
@@ -31,9 +32,11 @@
     "finden": "./bin/finden.js"
   },
   "scripts": {
-    "build": "yarn run clean && babel src -d lib",
+    "build": "npm run clean && babel src -d lib",
     "clean": "rimraf lib",
     "precommit": "lint-staged",
-    "commitmsg": "validate-commit-msg"
+    "commitmsg": "validate-commit-msg",
+    "prepublish": "in-publish && npm run build || not-in-publish",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }
 }
