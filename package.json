@@ -1,6 +1,7 @@
 {
   "name": "finden",
   "author": "Terrence Wong <wongterrencew@gmail.com>",
+  "repository": "https://github.com/terrencewwong/finden.git",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
