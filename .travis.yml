@@ -1,0 +1,20 @@
+language: node_js
+
+node_js:
+  - "7"
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.nvm
+    - $HOME/.npm
+
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+
+after_success:
+  - yarn semantic-release
