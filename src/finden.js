@@ -2,7 +2,7 @@
 
 const commander = require('commander')
 const pkg = require('../package.json')
-const search = require('./search')
+const buildReport = require('./build-report')
 
 commander
   .version(pkg.version)
@@ -11,9 +11,13 @@ commander
 
 const [pattern, glob = '**/*.js'] = commander.args
 
-search({
+buildReport({
   pattern,
   glob
-}).catch(e => {
-  console.error(e)
 })
+  .then(data => {
+    console.log(data)
+  })
+  .catch(e => {
+    console.error(e)
+  })

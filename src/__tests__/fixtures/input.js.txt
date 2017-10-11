@@ -1,0 +1,14 @@
+// TODO: need to name with .txt extension
+// or else jest will think this is a test!
+import SomeDefault, { NamedImport, Other as Alias } from 'ui-library'
+
+export default () => (
+  <SomeDefault>
+    Just randomly putting the tags in places :p
+    <div>
+      <NamedImport />
+      <Alias>first occurence</Alias>
+    </div>
+    <Alias>second occurence</Alias>
+  </SomeDefault>
+)
